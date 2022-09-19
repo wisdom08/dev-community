@@ -14,6 +14,9 @@ datasource:
 gradlew bootRun
 ```
 
+## Retrospective
+- [Iteration 1](https://github.com/wisdom08/dev-community/blob/15-iteration-1-retorspective/doc/retropective/retrospective.md)
+
 ## WIKI
 [해당 프로젝트에 대한 상세 내용은 위키를 참고해주세요.](https://github.com/wisdom08/dev-community/wiki)
 
