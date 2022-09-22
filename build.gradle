@@ -19,6 +19,7 @@ repositories {
 }
 
 dependencies {
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     implementation 'org.springframework.boot:spring-boot-starter-security'
