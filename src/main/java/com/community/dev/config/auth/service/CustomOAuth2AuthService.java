@@ -18,12 +18,13 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class CustomOAuth2AuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
+
+    private final UserRepo userRepo;
+    private final HttpSession httpSession;
 
     @SneakyThrows
     @Override
@@ -32,8 +33,22 @@ public class CustomOAuth2AuthService implements OAuth2UserService<OAuth2UserRequ
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(request);
         String registrationId = request.getClientRegistration().getRegistrationId();
-        String userNameAttributeName = request.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
-        OAuth2Attributes attributes = OAuth2Attributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
-        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")), attributes.getAttributes(), attributes.getNameAttributeKey());
+        String userNameAttributeName = request.getClientRegistration().getProviderDetails()
+            .getUserInfoEndpoint().getUserNameAttributeName();
+        OAuth2Attributes attributes = OAuth2Attributes.of(registrationId, userNameAttributeName,
+            oAuth2User.getAttributes());
+
+        User user = saveOrUpdate(attributes);
+        httpSession.setAttribute("user", new SessionUser(user));
+
+        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
+            attributes.getAttributes(), attributes.getNameAttributeKey());
+    }
+
+    private User saveOrUpdate(OAuth2Attributes attributes) {
+        User user = userRepo.findByEmail(attributes.getEmail())
+            .map(entity -> entity.update(attributes.getNickname(), attributes.getPicture()))
+            .orElse(attributes.toEntity());
+        return userRepo.save(user);
     }
 }

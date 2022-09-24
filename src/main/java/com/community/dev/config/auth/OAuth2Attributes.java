@@ -87,4 +87,13 @@ public class OAuth2Attributes {
             .build();
     }
 
+    public User toEntity() {
+       return User.builder()
+            .name(nickname)
+            .email(email)
+            .picture(picture)
+            .role(Role.USER)
+            .build();
+    }
+
 }
