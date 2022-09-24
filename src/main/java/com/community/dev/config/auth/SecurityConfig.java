@@ -1,9 +1,9 @@
-package com.community.dev.config;
+package com.community.dev.config.auth;
 
-import com.community.dev.oauth2.handler.OAuth2AuthenticationFailureHandler;
-import com.community.dev.oauth2.handler.OAuth2AuthenticationSuccessHandler;
-import com.community.dev.oauth2.service.CustomOAuth2AuthService;
-import com.community.dev.oauth2.service.CustomOidcUserService;
+import com.community.dev.config.auth.handler.OAuth2AuthenticationFailureHandler;
+import com.community.dev.config.auth.handler.OAuth2AuthenticationSuccessHandler;
+import com.community.dev.config.auth.service.CustomOAuth2AuthService;
+import com.community.dev.config.auth.service.CustomOidcUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

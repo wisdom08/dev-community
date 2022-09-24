@@ -1,4 +1,4 @@
-package com.community.dev.oauth2.exception;
+package com.community.dev.config.auth.exception;
 
 public class OAuth2NotFoundException extends RuntimeException {
     public OAuth2NotFoundException(String message) {

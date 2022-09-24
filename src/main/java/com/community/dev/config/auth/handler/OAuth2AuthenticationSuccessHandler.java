@@ -1,6 +1,6 @@
-package com.community.dev.oauth2.handler;
+package com.community.dev.config.auth.handler;
 
-import com.community.dev.oauth2.Provider;
+import com.community.dev.config.auth.Provider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

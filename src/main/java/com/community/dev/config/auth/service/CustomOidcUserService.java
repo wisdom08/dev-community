@@ -1,6 +1,6 @@
-package com.community.dev.oauth2.service;
+package com.community.dev.config.auth.service;
 
-import com.community.dev.oauth2.OAuth2Attributes;
+import com.community.dev.config.auth.OAuth2Attributes;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
