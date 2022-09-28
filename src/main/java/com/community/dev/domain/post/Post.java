@@ -6,11 +6,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Entity
 public class Post {
 
+    @Setter
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
