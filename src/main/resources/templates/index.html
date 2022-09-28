@@ -12,78 +12,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-<nav class="navbar is-white topNav">
-  <div class="container">
-    <div class="navbar-brand">
-      <a class="navbar-item" href="/">
-        <img src="/image/logo.png" width="112" height="28">
-      </a>
-      <div class="navbar-burger burger" data-target="topNav">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </div>
-    <div id="topNav" class="navbar-menu">
-      <div class="navbar-start">
-        <a class="navbar-item" href="">자유 게시판</a>
-        <a class="navbar-item" href="">질문 게시판</a>
-        <a class="navbar-item" href="">기술 공유</a>
-        <a class="navbar-item" href="">스터디 모임</a>
-        <a class="navbar-item" href="">회고</a>
-        <a class="navbar-item" href="">홍보</a>
-      </div>
-      <div class="navbar-end">
-        <div class="navbar-item">
-          <div class="field is-grouped">
-            <p class="control">
-            </p>
-            Login as: <span th:text="${userName}"></span>
-            <button class="button is-primary update-modal" sec:authorize="!isAuthenticated()">로그인</button>
-            <button class="button is-primary">
-               <a th:href="@{/}" role="button">Logout</a>
-            </button>
-          </div>
+<div th:replace="/nav :: nav"></div>
 
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="update-modal" class="modal">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-      <header class="modal-card-head">
-        <p class="modal-card-title">Social Login</p>
-        <button class="delete update-modal-close" aria-label="close"></button>
-      </header>
-      <section class="modal-card-body">
-        <div class="field is-grouped">
-          <p class="control">
-            <a class="button is-small is-info is-outlined" th:href="@{/oauth2/authorization/google}">
-										<span class="icon">
-											<i class="fa fa-user"></i>
-										</span>
-              <span>google login</span>
-            </a>
-            <a class="button is-small is-info is-outlined" th:href="@{/oauth2/authorization/kakao}">
-										<span class="icon">
-											<i class="fa fa-user"></i>
-										</span>
-              <span>kakao login</span>
-            </a>
-            <a class="button is-small is-info is-outlined" th:href="@{/oauth2/authorization/github}">
-										<span class="icon">
-											<i class="fa fa-user"></i>
-										</span>
-              <span>github login</span>
-            </a>
-          </p>
-        </div>
-      </section>
-    </div>
-  </div>
-</nav>
 <h1>소셜 로그인 테스트</h1>
 <h2 th:text="${provider}"> 앱 </h2>
 <h2 th:text="${oauthId}"> 아이디 </h2>
