@@ -34,7 +34,7 @@ public class PostApiController {
     }
 
     @GetMapping("/{postId}")
-    public List<PostResponseDto> getPost(@PathVariable Long postId) {
+    public PostResponseDto getPost(@PathVariable Long postId) {
         return postService.getPost(postId);
     }
 

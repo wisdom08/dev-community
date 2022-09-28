@@ -29,10 +29,8 @@ public class PostService {
         postRepo.deleteById(id);
     }
 
-    public List<PostResponseDto> getPost(Long id) {
-        isExist(id);
-        return postRepo.findById(id).stream().map(PostResponseDto::from)
-            .collect(Collectors.toList());
+    public PostResponseDto getPost(Long postId) {
+        return PostResponseDto.from(isExist(postId));
     }
 
     public List<PostResponseDto> getAllPosts() {
