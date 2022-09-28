@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>JuniorDev</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 <nav class="navbar is-white topNav">
@@ -35,19 +37,75 @@
         <div class="navbar-item">
           <div class="field is-grouped">
             <p class="control">
-              <a class="button is-small is-info is-outlined">
-										<span class="icon">
-											<i class="fa fa-user"></i>
-										</span>
-                <span>로그인</span>
-              </a>
             </p>
+            Login as: <span th:text="${userName}"></span>
+            <button class="button is-primary update-modal" sec:authorize="!isAuthenticated()">로그인</button>
+            <button class="button is-primary">
+               <a th:href="@{/}" role="button">Logout</a>
+            </button>
           </div>
+
         </div>
       </div>
     </div>
   </div>
-</nav>
 
+  <div id="update-modal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Social Login</p>
+        <button class="delete update-modal-close" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <div class="field is-grouped">
+          <p class="control">
+            <a class="button is-small is-info is-outlined" th:href="@{/oauth2/authorization/google}">
+										<span class="icon">
+											<i class="fa fa-user"></i>
+										</span>
+              <span>google login</span>
+            </a>
+            <a class="button is-small is-info is-outlined" th:href="@{/oauth2/authorization/kakao}">
+										<span class="icon">
+											<i class="fa fa-user"></i>
+										</span>
+              <span>kakao login</span>
+            </a>
+            <a class="button is-small is-info is-outlined" th:href="@{/oauth2/authorization/github}">
+										<span class="icon">
+											<i class="fa fa-user"></i>
+										</span>
+              <span>github login</span>
+            </a>
+          </p>
+        </div>
+      </section>
+    </div>
+  </div>
+</nav>
+<h1>소셜 로그인 테스트</h1>
+<h2 th:text="${provider}"> 앱 </h2>
+<h2 th:text="${oauthId}"> 아이디 </h2>
+<h2 th:text="${userName}"> 아이디 </h2>
+
+<script>
+  $(".update-modal").click(function () {
+    $("#update-modal").addClass("is-active");
+    $("#update-text").val($("#target-text").text());
+  });
+
+  $(".update-modal-close").click(function (e) {
+    e.preventDefault();
+    $("#update-modal").removeClass("is-active");
+  });
+
+  $("#save").click(function (e) {
+    e.preventDefault();
+    $("#update-modal").removeClass("is-active");
+    $("#target-text").text($("#update-text").val());
+  });
+
+</script>
 </body>
 </html>

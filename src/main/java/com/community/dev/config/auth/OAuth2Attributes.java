@@ -1,6 +1,8 @@
-package com.community.dev.oauth2;
+package com.community.dev.config.auth;
 
-import com.community.dev.oauth2.exception.OAuth2RegistrationException;
+import com.community.dev.domain.user.Role;
+import com.community.dev.domain.user.User;
+import com.community.dev.config.auth.exception.OAuth2RegistrationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Builder;
 import lombok.Getter;
@@ -82,6 +84,15 @@ public class OAuth2Attributes {
             .provider(Provider.GITHUB)
             .attributes(attributes)
             .nameAttributeKey(userNameAttributeName)
+            .build();
+    }
+
+    public User toEntity() {
+       return User.builder()
+            .name(nickname)
+            .email(email)
+            .picture(picture)
+            .role(Role.USER)
             .build();
     }
 
