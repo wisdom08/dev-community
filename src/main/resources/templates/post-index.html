@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+
+    <title>JuniorDev</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+<div th:replace="/nav :: nav"></div>
+
+<div class="container is-max-desktop">
+    <div class="notification is-primary">
+        <div th:switch="${posts}">
+            <a href="/posts/write"><button class="button">게시글 작성</button></a>
+
+            <h2 th:case="null">게시글이 없습니다.</h2>
+            <div th:case="*">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th><abbr title="no">no</abbr></th>
+                        <th><abbr title="user">작성자</abbr></th>
+                        <th><abbr title="title">제목</abbr></th>
+                        <th><abbr title="delete">수정</abbr></th>
+                        <th><abbr title="edit">삭제</abbr></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="post : ${posts}">
+                        <td th:text="${post.id}"></td>
+                        <td th:text="${userName}"></td>
+                        <td th:text="${post.title}"></td>
+                        <td><a th:href="@{/posts/edit/{id}(id=${post.id})}"><i class="fas fa-user-edit ml-2"></i></a></td>
+                        <td><a th:href="@{/posts/delete/{id}(id=${post.id})}"><i class="fas fa-user-times ml-2"></i></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+</body>
+<!DOCTYPE html>
