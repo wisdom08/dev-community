@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <title>JuniorDev</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<div th:replace="/nav :: nav"></div>
+<body>
+<div class="container is-max-desktop">
+    <div class="notification is-primary">
+        <form action="#" th:action="@{/posts/update/{id}(id=${post.id})}" th:object="${post}" method="post">
+        <div class="field">
+                <label class="label">카테고리</label>
+                <div class="control">
+                    <div class="select">
+                        <select>
+                            <option selected>자유게시판</option>
+                            <option>질문게시판</option>
+                            <option>기술 공유</option>
+                            <option>스터디 모임</option>
+                            <option>회고</option>
+                            <option>홍보</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">작성자</label>
+                <div class="control has-icons-left has-icons-right">
+                    <input class="input is-success" type="text" placeholder="Text input" value="bulma">
+                    <span class="icon is-small is-left">
+      <i class="fas fa-user"></i>
+    </span>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">제목</label>
+                <div class="control">
+                    <input class="input" type="text" placeholder="Text input" th:field="*{title}">
+                </div>
+            </div>
+
+
+
+
+            <div class="field">
+                <label class="label">내용</label>
+                <div class="control">
+                    <textarea class="textarea" placeholder="Textarea" th:field="*{contents}"></textarea>
+                </div>
+            </div>
+
+
+            <div class="field is-grouped">
+                <div class="control">
+                    <input type="submit" class="button"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
