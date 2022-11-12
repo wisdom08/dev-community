@@ -29,8 +29,9 @@ public class PostService {
     }
 
     @Transactional
-    public void deletePost(Long id) {
-        isExist(id);
+    public void deletePost(Long id, String inputPassword) throws Exception {
+        Post post = isExist(id);
+        validatePassword(inputPassword, post.getPassword());
         postRepo.deleteById(id);
     }
 
@@ -44,13 +45,19 @@ public class PostService {
     }
 
     @Transactional
-    public void updatePost(PostRequestDto requestDto, Long postId) {
+    public void updatePost(PostRequestDto requestDto, Long postId) throws Exception {
         Post post = isExist(postId);
+        validatePassword(requestDto.getPassword(), post.getPassword());
         post.updatePost(requestDto.getTitle(), requestDto.getContents());
     }
 
     public Post isExist(Long id) {
         return postRepo.findById(id).orElseThrow(() ->
             new EntityNotFoundException("게시글이 없습니다."));
+    }
+
+    private void validatePassword(String inputPassword, String savedPassword) throws Exception {
+        boolean passwordMatching = passwordEncoder.matches(inputPassword, savedPassword);
+        if (!passwordMatching) throw new Exception("비밀번호가 틀립니다.");
     }
 }

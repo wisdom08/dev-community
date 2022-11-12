@@ -1,6 +1,7 @@
 package com.community.dev.web;
 
 import com.community.dev.service.post.PostService;
+import com.community.dev.web.dto.PostPasswordDto;
 import com.community.dev.web.dto.PostRequestDto;
 import com.community.dev.web.dto.PostResponseDto;
 import java.util.List;
@@ -29,8 +30,9 @@ public class PostApiController {
     }
 
     @DeleteMapping("/{postId}")
-    public void deletePost(@PathVariable Long postId) {
-        postService.deletePost(postId);
+    public void deletePost(@PathVariable Long postId, @RequestBody PostPasswordDto passwordDto)
+        throws Exception {
+        postService.deletePost(postId, passwordDto.getPassword());
     }
 
     @GetMapping("/{postId}")
@@ -44,7 +46,8 @@ public class PostApiController {
     }
 
     @PutMapping("/{postId}")
-    public void updatePost(@PathVariable Long postId, @RequestBody PostRequestDto requestDto) {
+    public void updatePost(@PathVariable Long postId, @RequestBody PostRequestDto requestDto)
+        throws Exception {
         postService.updatePost(requestDto, postId);
     }
 }
