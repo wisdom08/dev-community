@@ -8,19 +8,24 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PostService {
 
     private final PostRepo postRepo;
+    private final PasswordEncoder passwordEncoder;
 
-    public PostService(PostRepo postRepo) {
+    public PostService(PostRepo postRepo, PasswordEncoder passwordEncoder) {
         this.postRepo = postRepo;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public void createPost(PostRequestDto requestDto) {
-        postRepo.save(requestDto.toEntity());
+        String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
+        postRepo.save(requestDto.createPost(requestDto.getWriter(),
+            requestDto.getTitle(), requestDto.getContents(), encodedPassword));
     }
 
     @Transactional

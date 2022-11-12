@@ -22,13 +22,7 @@ public class PostRequestDto {
         this.password = password;
     }
 
-
-    public Post toEntity() {
-        return Post.builder()
-            .writer(writer)
-            .title(title)
-            .contents(contents)
-            .password(password)
-            .build();
+    public static Post createPost(String writer, String title, String contents, String password) {
+        return new Post(writer, title, contents, password);
     }
 }
