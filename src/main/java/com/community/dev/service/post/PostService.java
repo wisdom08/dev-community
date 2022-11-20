@@ -55,9 +55,4 @@ public class PostService {
         return postRepo.findById(id).orElseThrow(() ->
             new EntityNotFoundException("게시글이 없습니다."));
     }
-
-    private void validatePassword(String inputPassword, String savedPassword) throws Exception {
-        boolean passwordMatching = passwordEncoder.matches(inputPassword, savedPassword);
-        if (!passwordMatching) throw new Exception("비밀번호가 틀립니다.");
-    }
 }
