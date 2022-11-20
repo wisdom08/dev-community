@@ -1,8 +1,7 @@
 package com.community.dev.web;
 
 import com.community.dev.domain.post.Post;
-import com.community.dev.domain.post.PostRepo;
-import javax.validation.Valid;
+import com.community.dev.service.post.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,16 +10,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/posts/")
 public class PostController {
 
-    private final PostRepo postRepo;
+    private final PostService postService;
 
     @Autowired
-    public PostController(PostRepo postRepo) {
-        this.postRepo = postRepo;
+    public PostController(PostService postService) {
+        this.postService = postService;
     }
 
     @GetMapping("write")
@@ -30,7 +30,7 @@ public class PostController {
 
     @GetMapping("list")
     public String showUpdateForm(Model model) {
-        model.addAttribute("posts", postRepo.findAll());
+        model.addAttribute("posts", postService.getAllPosts());
         return "post-index";
     }
 
@@ -39,17 +39,20 @@ public class PostController {
         if (result.hasErrors()) {
             return "post-add";
         }
-
-        postRepo.save(post);
+        postService.createPost(post);
         return "redirect:list";
     }
 
     @GetMapping("edit/{id}")
     public String showUpdateForm(@PathVariable("id") long id, Model model) {
-        Post post = postRepo.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Invalid post Id:" + id));
-        model.addAttribute("post", post);
+        model.addAttribute("post", postService.getPost(id));
         return "post-update";
+    }
+
+    @GetMapping("delete/{id}")
+    public String showDeleteForm(@PathVariable("id") long id, Model model) {
+        model.addAttribute("post", postService.getPost(id));
+        return "post-delete";
     }
 
     @PostMapping("update/{id}")
@@ -60,17 +63,29 @@ public class PostController {
             return "post-update";
         }
 
-        postRepo.save(post);
-        model.addAttribute("posts", postRepo.findAll());
-        return "post-index";
+        if (postService.updatePost(post, id)) {
+            model.addAttribute("posts", postService.getAllPosts());
+            return "post-index";
+        } else {
+            model.addAttribute("post", postService.getPost(id));
+            return "post-error";
+        }
     }
 
-    @GetMapping("delete/{id}")
-    public String deletePost(@PathVariable("id") long id, Model model) {
-        Post post = postRepo.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Invalid post Id:" + id));
-        postRepo.delete(post);
-        model.addAttribute("posts", postRepo.findAll());
-        return "post-index";
+    @PostMapping("delete/{id}")
+    public String deletePost(@PathVariable("id") long id, @Valid Post post, BindingResult result,
+                             Model model){
+        if (result.hasErrors()) {
+            post.setId(id);
+            return "post-delete";
+        }
+
+        if (postService.deletePost(post, id)) {
+            model.addAttribute("posts", postService.getAllPosts());
+            return "post-index";
+        } else {
+            model.addAttribute("post", postService.getPost(id));
+            return "post-error-for-delete";
+        }
     }
 }

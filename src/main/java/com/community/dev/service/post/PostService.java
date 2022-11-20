@@ -2,14 +2,14 @@ package com.community.dev.service.post;
 
 import com.community.dev.domain.post.Post;
 import com.community.dev.domain.post.PostRepo;
-import com.community.dev.web.dto.PostRequestDto;
 import com.community.dev.web.dto.PostResponseDto;
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -22,17 +22,10 @@ public class PostService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void createPost(PostRequestDto requestDto) {
-        String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
-        postRepo.save(requestDto.createPost(requestDto.getWriter(),
-            requestDto.getTitle(), requestDto.getContents(), encodedPassword));
-    }
-
-    @Transactional
-    public void deletePost(Long id, String inputPassword) throws Exception {
-        Post post = isExist(id);
-        validatePassword(inputPassword, post.getPassword());
-        postRepo.deleteById(id);
+    public void createPost(Post post) {
+        String encodedPassword = passwordEncoder.encode(post.getPassword());
+        postRepo.save(post.createPost(post.getWriter(),
+                post.getTitle(), post.getContents(), encodedPassword));
     }
 
     public PostResponseDto getPost(Long postId) {
@@ -45,10 +38,23 @@ public class PostService {
     }
 
     @Transactional
-    public void updatePost(PostRequestDto requestDto, Long postId) throws Exception {
-        Post post = isExist(postId);
-        validatePassword(requestDto.getPassword(), post.getPassword());
-        post.updatePost(requestDto.getTitle(), requestDto.getContents());
+    public boolean updatePost(Post updatedPost, Long postId)  {
+        Post existingPost = isExist(postId);
+        if (passwordEncoder.matches(updatedPost.getPassword(), existingPost.getPassword())) {
+            existingPost.updatePost(updatedPost.getTitle(), updatedPost.getContents());
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean deletePost(Post updatedPost, Long postId) {
+        Post existingPost = isExist(postId);
+        if (passwordEncoder.matches(updatedPost.getPassword(), existingPost.getPassword())) {
+            postRepo.deleteById(postId);
+            return true;
+        }
+        return false;
     }
 
     public Post isExist(Long id) {
