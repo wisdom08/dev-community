@@ -18,7 +18,7 @@
 <body>
 <div class="container is-max-desktop">
     <div class="notification is-primary">
-        <form action="#" th:action="@{/posts/update/{id}(id=${post.id})}" th:object="${post}" method="post">
+        <form action="#" th:action="@{/posts/delete/{id}(id=${post.id})}" th:object="${post}" method="post">
             <div class="field">
                 <label class="label">카테고리</label>
                 <div class="control">

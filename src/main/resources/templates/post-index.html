@@ -31,16 +31,16 @@
                         <th><abbr title="no">no</abbr></th>
                         <th><abbr title="user">작성자</abbr></th>
                         <th><abbr title="title">제목</abbr></th>
-                        <th><abbr title="delete">수정</abbr></th>
-                        <th><abbr title="edit">삭제</abbr></th>
+                        <th><abbr title="edit">수정</abbr></th>
+                        <th><abbr title="delete">삭제</abbr></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="post : ${posts}">
                         <td th:text="${post.id}"></td>
-                        <td th:text="${userName}"></td>
+                        <td th:text="${post.writer}"></td>
                         <td th:text="${post.title}"></td>
-                        <td><a th:href="@{/posts/edit/{id}(id=${post.id})}"><i class="fas fa-user-edit ml-2"></i></a></td>
+                        <td><a th:href="@{/posts/edit/{id}(id=${post.id})}"><i class="fas fa-user-times ml-2"></i></a></td>
                         <td><a th:href="@{/posts/delete/{id}(id=${post.id})}"><i class="fas fa-user-times ml-2"></i></a></td>
                     </tr>
                     </tbody>
