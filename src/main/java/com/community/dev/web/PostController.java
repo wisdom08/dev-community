@@ -43,6 +43,12 @@ public class PostController {
         return "redirect:list";
     }
 
+    @GetMapping("/{id}")
+    public String showDetailForm(@PathVariable("id") long id, Model model) {
+        model.addAttribute("post", postService.getPost(id));
+        return "post-detail";
+    }
+
     @GetMapping("edit/{id}")
     public String showUpdateForm(@PathVariable("id") long id, Model model) {
         model.addAttribute("post", postService.getPost(id));
