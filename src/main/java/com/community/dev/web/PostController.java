@@ -2,6 +2,7 @@ package com.community.dev.web;
 
 import com.community.dev.domain.post.Post;
 import com.community.dev.service.post.PostService;
+import com.community.dev.service.reply.ReplyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +18,12 @@ import javax.validation.Valid;
 public class PostController {
 
     private final PostService postService;
+    private final ReplyService replyService;
 
     @Autowired
-    public PostController(PostService postService) {
+    public PostController(PostService postService, ReplyService replyService) {
         this.postService = postService;
+        this.replyService = replyService;
     }
 
     @GetMapping("write")
@@ -46,6 +49,7 @@ public class PostController {
     @GetMapping("/{id}")
     public String showDetailForm(@PathVariable("id") long id, Model model) {
         model.addAttribute("post", postService.getPost(id));
+        model.addAttribute("reply", replyService.getReplies(id));
         return "post-detail";
     }
 
