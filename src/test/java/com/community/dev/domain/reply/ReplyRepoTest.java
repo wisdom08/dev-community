@@ -27,8 +27,14 @@ class ReplyRepoTest {
         post = Post.createPost("writer", "title,", "contents", "1234");
 
         postRepo.save(post);
-        replyRepo.save(Reply.createReply(this.post, "replyWriter", "replyContents"));
-        replyRepo.save(Reply.createReply(this.post, "replyWriter2", "replyContents2"));
+        replyRepo.save(Reply.createReply(post, "replyWriter", "replyContents"));
+        replyRepo.save(Reply.createReply(post, "replyWriter2", "replyContents2"));
+    }
+
+    @Test
+    void 댓글_저장() {
+        Reply reply = Reply.createReply(this.post, "replyWriter3", "replyContents3");
+        assertThat(replyRepo.save(reply).getContents()).isEqualTo("replyContents3");
     }
 
     @Test
