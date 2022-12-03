@@ -29,7 +29,7 @@ public class PostService {
     }
 
     public PostResponseDto getPost(Long postId) {
-        return PostResponseDto.from(isExist(postId));
+        return PostResponseDto.from(exist(postId));
     }
 
     public List<PostResponseDto> getAllPosts() {
@@ -39,7 +39,7 @@ public class PostService {
 
     @Transactional
     public boolean updatePost(Post updatedPost, Long postId)  {
-        Post existingPost = isExist(postId);
+        Post existingPost = exist(postId);
         if (passwordEncoder.matches(updatedPost.getPassword(), existingPost.getPassword())) {
             existingPost.updatePost(updatedPost.getTitle(), updatedPost.getContents());
             return true;
@@ -49,7 +49,7 @@ public class PostService {
 
     @Transactional
     public boolean deletePost(Post updatedPost, Long postId) {
-        Post existingPost = isExist(postId);
+        Post existingPost = exist(postId);
         if (passwordEncoder.matches(updatedPost.getPassword(), existingPost.getPassword())) {
             postRepo.deleteById(postId);
             return true;
@@ -57,7 +57,7 @@ public class PostService {
         return false;
     }
 
-    public Post isExist(Long id) {
+    public Post exist(Long id) {
         return postRepo.findById(id).orElseThrow(() ->
             new EntityNotFoundException("게시글이 없습니다."));
     }
