@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/{id}/replies/")
+@RequestMapping("/posts/{id}/replies/")
 public class ReplyController {
 
     private final PostService postService;
