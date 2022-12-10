@@ -39,7 +39,7 @@
                     <tr th:each="post : ${posts}">
                         <td th:text="${post.id}"></td>
                         <td th:text="${post.writer}"></td>
-                        <td th:text="${post.title}"></td>
+                        <td><a th:text="${post.title}" th:href="@{/posts/{id}(id=${post.id})}"></a></td>
                         <td><a th:href="@{/posts/edit/{id}(id=${post.id})}"><i class="fas fa-user-times ml-2"></i></a></td>
                         <td><a th:href="@{/posts/delete/{id}(id=${post.id})}"><i class="fas fa-user-times ml-2"></i></a></td>
                     </tr>
