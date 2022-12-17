@@ -72,12 +72,15 @@
     </div>
 
     <div id="replies">
-        <div th:each="reply:${reply}">
+        <div th:each="reply:${replies}">
             <form method="POST">
                 작성자: <p th:text="${reply.writer}"></p>
                 댓글: <p th:text="${reply.contents}"></p>
             </form>
             <hr>
+        </div>
+        <div id="reply">
+
         </div>
     </div>
 
@@ -98,7 +101,8 @@
             data: reply,
         })
             .done(function (fragment) {
-                $('#post-and-replies').replaceWith(fragment);
+                $( '#replies' ).addClass(fragment);
+                $('#replies').load(location.href+' #replies');
             });
     }
 </script>

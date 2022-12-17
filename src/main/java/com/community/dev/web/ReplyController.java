@@ -34,8 +34,7 @@ public class ReplyController {
         }
         replyService.createReply(id, reply);
 
-        model.addAttribute("post", postService.getPost(id));
-        model.addAttribute("reply", replyService.getReplies(id));
-        return "post-detail";
+        model.addAttribute("reply", reply);
+        return "reply";
     }
 }
