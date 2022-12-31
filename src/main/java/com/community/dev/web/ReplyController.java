@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/{id}/replies/")
+@RequestMapping("/posts/{id}/replies/")
 public class ReplyController {
 
     private final PostService postService;
@@ -34,8 +34,7 @@ public class ReplyController {
         }
         replyService.createReply(id, reply);
 
-        model.addAttribute("post", postService.getPost(id));
-        model.addAttribute("reply", replyService.getReplies(id));
-        return "post-detail";
+        model.addAttribute("reply", reply);
+        return "reply";
     }
 }

@@ -14,9 +14,9 @@
     <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
-<div th:replace="/nav :: nav"></div>
 <body>
-<div class="container is-max-desktop">
+<div class="container is-max-desktop" id="post-and-replies">
+<div th:replace="/nav :: nav"></div>
     <div class="notification is-primary">
         <form action="#" th:action="@{/posts/update/{id}(id=${post.id})}" th:object="${post}" method="post">
             <div class="field">
@@ -64,7 +64,47 @@
         <button> <a th:href="@{/posts/edit/{id}(id=${post.id})}">수정</a></button>
         <button> <a th:href="@{/posts/delete/{id}(id=${post.id})}">삭제</a></button>
     </div>
+    <div class="col justify-content-center my-1 mx-0">
+            <input type="hidden" name="post_id" id="post_id" th:value="${post.id}">
+            작성자: <input type="text" id="reply_writer" name="reply_writer">
+            내용: <input type="text" id="reply_contents" name="reply_contents">
+            <input type="button" onclick="return createReply()" value="댓글작성">
+    </div>
+
+    <div id="replies">
+        <div th:each="reply:${replies}">
+            <form method="POST">
+                작성자: <p th:text="${reply.writer}"></p>
+                댓글: <p th:text="${reply.contents}"></p>
+            </form>
+            <hr>
+        </div>
+        <div id="reply">
+
+        </div>
+    </div>
+
 </div>
 
 </body>
+
+<script>
+    function createReply() {
+        const postId = $("#post_id").val();
+        const reply = {
+            writer: $("#reply_writer").val(),
+            contents: $("#reply_contents").val(),
+        };
+        $.ajax({
+            url: postId+"/replies/write",
+            type: "POST",
+            data: reply,
+        })
+            .done(function (fragment) {
+                $("#replies").append(fragment);
+                $("#reply_writer").val("");
+                $("#reply_contents").val("");
+            });
+    }
+</script>
 </html>

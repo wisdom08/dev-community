@@ -49,7 +49,7 @@ public class PostController {
     @GetMapping("/{id}")
     public String showDetailForm(@PathVariable("id") long id, Model model) {
         model.addAttribute("post", postService.getPost(id));
-        model.addAttribute("reply", replyService.getReplies(id));
+        model.addAttribute("replies", replyService.getReplies(id));
         return "post-detail";
     }
 
