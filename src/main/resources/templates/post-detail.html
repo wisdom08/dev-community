@@ -101,8 +101,9 @@
             data: reply,
         })
             .done(function (fragment) {
-                $( '#replies' ).addClass(fragment);
-                $('#replies').load(location.href+' #replies');
+                $("#replies").append(fragment);
+                $("#reply_writer").val("");
+                $("#reply_contents").val("");
             });
     }
 </script>
